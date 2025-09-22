@@ -14,10 +14,10 @@ const isPublicRoute = createRouteMatcher([
 ])
 
 export default clerkMiddleware((auth, req) => {
-  // Always allow public routes
+  // Allow public routes
   if (isPublicRoute(req)) return NextResponse.next()
 
-  // If not signed in → send to sign-in and come back after
+  // Not signed in → send to sign-in and come back after
   const { userId } = auth
   if (!userId) {
     return auth.redirectToSignIn({ returnBackUrl: req.url })
@@ -28,4 +28,5 @@ export default clerkMiddleware((auth, req) => {
 })
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/im]()
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+}
