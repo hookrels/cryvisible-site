@@ -1,30 +1,18 @@
-import { NextResponse } from 'next/server'
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { authMiddleware } from '@clerk/nextjs'
 
-// Public routes that stay open
-const isPublicRoute = createRouteMatcher([
-  '/',                 // Landing page
-  '/sign-in(.*)',      // Auth pages
-  '/sign-up(.*)',
-  '/favicon(.*)',      // Static & Next internals
-  '/_next(.*)',
-  '/images(.*)',
-  '/assets(.*)',
-  '/status'            // Optional status page
-])
-
-export default clerkMiddleware((auth, req) => {
-  // Allow public routes
-  if (isPublicRoute(req)) return NextResponse.next()
-
-  // Not signed in → send to sign-in and come back after
-  const { userId } = auth
-  if (!userId) {
-    return auth.redirectToSignIn({ returnBackUrl: req.url })
-  }
-
-  // Signed in → allow
-  return NextResponse.next()
+export default authMiddleware({
+  // Pages that stay public
+  publicRoutes: [
+    '/',               // landing
+    '/sign-in(.*)',    // auth pages
+    '/sign-up(.*)',
+    '/favicon(.*)',    // static & next internals
+    '/_next(.*)',
+    '/images(.*)',
+    '/assets(.*)',
+    '/status'          // optional status page
+  ],
+  signInUrl: '/sign-in', // where to send unauthenticated users
 })
 
 export const config = {
