@@ -1,18 +1,20 @@
-import { authMiddleware } from '@clerk/nextjs'
+// ✅ Server-only import so Edge middleware doesn't pull UI components
+import { authMiddleware } from '@clerk/nextjs/server'
 
 export default authMiddleware({
-  // Pages that stay public
+  // Routes that stay public
   publicRoutes: [
     '/',               // landing
     '/sign-in(.*)',    // auth pages
     '/sign-up(.*)',
-    '/favicon(.*)',    // static & next internals
+    '/favicon(.*)',    // static & Next internals
     '/_next(.*)',
     '/images(.*)',
     '/assets(.*)',
     '/status'          // optional status page
   ],
-  signInUrl: '/sign-in', // where to send unauthenticated users
+  // If someone isn't signed in, send them here
+  signInUrl: '/sign-in',
 })
 
 export const config = {
