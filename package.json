@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@clerk/nextjs": "^6.32.2",
+    "next": "14.x || 15.x",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9"
+  }
+}
